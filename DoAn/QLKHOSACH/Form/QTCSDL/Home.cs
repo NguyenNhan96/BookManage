@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace QTCSDL
 {
-    public partial class NhapSach : Form
+    public partial class Home : Form
     {
-        public NhapSach()
+        public Home()
         {
             InitializeComponent();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
