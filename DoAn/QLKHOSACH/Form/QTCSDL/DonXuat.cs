@@ -64,8 +64,8 @@ namespace QTCSDL
             if (txtMaDon.Text != null)
             {
                 bienTruyen = txtMaDon.Text.ToString();
-                CTDN chiTietDonNhap = new CTDN(bienTruyen.ToString());
-                chiTietDonNhap.Show();
+                CTDX chiTietDonXuat = new CTDX(bienTruyen.ToString());
+                chiTietDonXuat.Show();
             }
         }
 

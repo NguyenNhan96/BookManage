@@ -65,6 +65,12 @@
     <Compile Include="CTDN.Designer.cs">
       <DependentUpon>CTDN.cs</DependentUpon>
     </Compile>
+    <Compile Include="CTDX.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CTDX.Designer.cs">
+      <DependentUpon>CTDX.cs</DependentUpon>
+    </Compile>
     <Compile Include="DonNhap.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +82,12 @@
     </Compile>
     <Compile Include="DonXuat.Designer.cs">
       <DependentUpon>DonXuat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Home.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Home.Designer.cs">
+      <DependentUpon>Home.cs</DependentUpon>
     </Compile>
     <Compile Include="Kho.cs">
       <SubType>Form</SubType>
@@ -100,11 +112,17 @@
     <EmbeddedResource Include="CTDN.resx">
       <DependentUpon>CTDN.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CTDX.resx">
+      <DependentUpon>CTDX.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DonNhap.resx">
       <DependentUpon>DonNhap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DonXuat.resx">
       <DependentUpon>DonXuat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Home.resx">
+      <DependentUpon>Home.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Kho.resx">
       <DependentUpon>Kho.cs</DependentUpon>
