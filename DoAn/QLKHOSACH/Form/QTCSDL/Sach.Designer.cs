@@ -81,9 +81,9 @@
             this.GIA,
             this.SOLUONG,
             this.MALOAI});
-            this.dsSach.Location = new System.Drawing.Point(1, 174);
+            this.dsSach.Location = new System.Drawing.Point(2, 176);
             this.dsSach.Name = "dsSach";
-            this.dsSach.Size = new System.Drawing.Size(802, 266);
+            this.dsSach.Size = new System.Drawing.Size(800, 263);
             this.dsSach.TabIndex = 0;
             this.dsSach.SelectionChanged += new System.EventHandler(this.dsSach_SelectionChanged_1);
             // 
@@ -258,7 +258,7 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.groupBox1.Location = new System.Drawing.Point(1, 10);
+            this.groupBox1.Location = new System.Drawing.Point(9, 8);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(469, 158);
             this.groupBox1.TabIndex = 9;
@@ -392,9 +392,9 @@
             this.groupBox2.Controls.Add(this.btnXoa);
             this.groupBox2.Controls.Add(this.btnThem);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.groupBox2.Location = new System.Drawing.Point(490, 10);
+            this.groupBox2.Location = new System.Drawing.Point(488, 8);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(249, 158);
+            this.groupBox2.Size = new System.Drawing.Size(304, 158);
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Chức năng";
