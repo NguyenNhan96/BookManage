@@ -71,6 +71,12 @@
     <Compile Include="DonNhap.Designer.cs">
       <DependentUpon>DonNhap.cs</DependentUpon>
     </Compile>
+    <Compile Include="DonXuat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DonXuat.Designer.cs">
+      <DependentUpon>DonXuat.cs</DependentUpon>
+    </Compile>
     <Compile Include="Kho.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,12 +88,6 @@
     </Compile>
     <Compile Include="LoaiSach.Designer.cs">
       <DependentUpon>LoaiSach.cs</DependentUpon>
-    </Compile>
-    <Compile Include="NhapSach.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="NhapSach.Designer.cs">
-      <DependentUpon>NhapSach.cs</DependentUpon>
     </Compile>
     <Compile Include="Sach.cs">
       <SubType>Form</SubType>
@@ -103,14 +103,14 @@
     <EmbeddedResource Include="DonNhap.resx">
       <DependentUpon>DonNhap.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DonXuat.resx">
+      <DependentUpon>DonXuat.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Kho.resx">
       <DependentUpon>Kho.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoaiSach.resx">
       <DependentUpon>LoaiSach.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NhapSach.resx">
-      <DependentUpon>NhapSach.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sach.resx">
       <DependentUpon>Sach.cs</DependentUpon>

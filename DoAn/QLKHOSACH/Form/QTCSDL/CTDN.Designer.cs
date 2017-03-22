@@ -80,7 +80,7 @@
             this.SL});
             this.dsCTDN.Location = new System.Drawing.Point(1, 208);
             this.dsCTDN.Name = "dsCTDN";
-            this.dsCTDN.Size = new System.Drawing.Size(780, 210);
+            this.dsCTDN.Size = new System.Drawing.Size(781, 224);
             this.dsCTDN.TabIndex = 2;
             this.dsCTDN.SelectionChanged += new System.EventHandler(this.dsCTDN_SelectionChanged);
             // 
@@ -309,7 +309,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(781, 419);
+            this.ClientSize = new System.Drawing.Size(782, 433);
             this.Controls.Add(this.txtMaDon);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);

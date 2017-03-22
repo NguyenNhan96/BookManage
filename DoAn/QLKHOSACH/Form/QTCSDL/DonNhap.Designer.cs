@@ -30,6 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DonNhap));
             this.dsDonNhap = new System.Windows.Forms.DataGridView();
+            this.MADN = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NGAYNHAP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NOINHAP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TONGTIEN = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MAKHO = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnThem = new System.Windows.Forms.Button();
             this.btnSua = new System.Windows.Forms.Button();
             this.btnXoa = new System.Windows.Forms.Button();
@@ -49,15 +54,10 @@
             this.txtTongTien = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.MADN = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NGAYNHAP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NOINHAP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TONGTIEN = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MAKHO = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dsDonNhap)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -79,6 +79,36 @@
             this.dsDonNhap.Size = new System.Drawing.Size(780, 192);
             this.dsDonNhap.TabIndex = 7;
             this.dsDonNhap.SelectionChanged += new System.EventHandler(this.dsDonNhap_SelectionChanged);
+            // 
+            // MADN
+            // 
+            this.MADN.DataPropertyName = "MADN";
+            this.MADN.HeaderText = "Mã Đơn nhập";
+            this.MADN.Name = "MADN";
+            // 
+            // NGAYNHAP
+            // 
+            this.NGAYNHAP.DataPropertyName = "NGAYNHAP";
+            this.NGAYNHAP.HeaderText = "Ngày Nhập";
+            this.NGAYNHAP.Name = "NGAYNHAP";
+            // 
+            // NOINHAP
+            // 
+            this.NOINHAP.DataPropertyName = "NOINHAP";
+            this.NOINHAP.HeaderText = "Nơi Nhập";
+            this.NOINHAP.Name = "NOINHAP";
+            // 
+            // TONGTIEN
+            // 
+            this.TONGTIEN.DataPropertyName = "TONGTIEN";
+            this.TONGTIEN.HeaderText = "Tổng Tiền";
+            this.TONGTIEN.Name = "TONGTIEN";
+            // 
+            // MAKHO
+            // 
+            this.MAKHO.DataPropertyName = "MAKHO";
+            this.MAKHO.HeaderText = "Mã Kho";
+            this.MAKHO.Name = "MAKHO";
             // 
             // btnThem
             // 
@@ -315,23 +345,14 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Hướng dẫn";
             // 
-            // label4
+            // label7
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(314, 27);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(126, 15);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "- Nhập đơn hàng mới.";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(483, 27);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(110, 15);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "- Xóa đơn hàng cũ.";
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(483, 49);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(213, 15);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "- Xem thông tin chi tiết từng đơn hàng.";
             // 
             // label6
             // 
@@ -342,44 +363,23 @@
             this.label6.TabIndex = 13;
             this.label6.Text = "- Chỉnh sửa đơn hàng.";
             // 
-            // label7
+            // label5
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(483, 49);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(213, 15);
-            this.label7.TabIndex = 14;
-            this.label7.Text = "- Xem thông tin chi tiết từng đơn hàng.";
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(483, 27);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(110, 15);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "- Xóa đơn hàng cũ.";
             // 
-            // MADN
+            // label4
             // 
-            this.MADN.DataPropertyName = "MADN";
-            this.MADN.HeaderText = "Mã Đơn nhập";
-            this.MADN.Name = "MADN";
-            // 
-            // NGAYNHAP
-            // 
-            this.NGAYNHAP.DataPropertyName = "NGAYNHAP";
-            this.NGAYNHAP.HeaderText = "Ngày Nhập";
-            this.NGAYNHAP.Name = "NGAYNHAP";
-            // 
-            // NOINHAP
-            // 
-            this.NOINHAP.DataPropertyName = "NOINHAP";
-            this.NOINHAP.HeaderText = "Nơi Nhập";
-            this.NOINHAP.Name = "NOINHAP";
-            // 
-            // TONGTIEN
-            // 
-            this.TONGTIEN.DataPropertyName = "TONGTIEN";
-            this.TONGTIEN.HeaderText = "Tổng Tiền";
-            this.TONGTIEN.Name = "TONGTIEN";
-            // 
-            // MAKHO
-            // 
-            this.MAKHO.DataPropertyName = "MAKHO";
-            this.MAKHO.HeaderText = "Mã Kho";
-            this.MAKHO.Name = "MAKHO";
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(314, 27);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(126, 15);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "- Nhập đơn hàng mới.";
             // 
             // DonNhap
             // 
@@ -391,7 +391,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Name = "DonNhap";
-            this.Text = "Đơn Nhập";
+            this.Text = "Đơn nhập hàng";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DonNhap_FormClosing);
             this.Load += new System.EventHandler(this.DonNhap_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dsDonNhap)).EndInit();
