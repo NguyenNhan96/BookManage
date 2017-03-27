@@ -16,7 +16,7 @@ namespace QTCSDL
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new DonXuat());
+            Application.Run(new DonNhap());
         }
     }
 }
