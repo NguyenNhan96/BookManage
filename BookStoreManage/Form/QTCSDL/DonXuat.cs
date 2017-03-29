@@ -64,15 +64,7 @@ namespace QTCSDL
         
         public String bienTruyen = "";
         
-        private void btnChiTiet_Click_1(object sender, EventArgs e)
-        {
-            if (txtMaDon.Text != null)
-            {
-                bienTruyen = txtMaDon.Text.ToString();
-                CTDX chiTietDonXuat = new CTDX(bienTruyen.ToString());
-                chiTietDonXuat.Show();
-            }
-        }
+       
 
         private void btnThem_Click_1(object sender, EventArgs e)
         {
@@ -139,6 +131,30 @@ namespace QTCSDL
 
         private void btnRefresh_Click_1(object sender, EventArgs e)
         {
+            hienThi();
+        }
+        private void btnChiTiet_Click_1(object sender, EventArgs e)
+        {
+            if (txtMaDon.Text != null)
+            {
+                bienTruyen = txtMaDon.Text.ToString();
+                CTDX chiTietDonXuat = new CTDX(bienTruyen.ToString());
+                chiTietDonXuat.TruyenGiaTien += chiTietDonXuat_TruyenGiaTien;
+                chiTietDonXuat.Show();
+            }
+        }
+
+        public void chiTietDonXuat_TruyenGiaTien(object sender, SuKien e)
+        {
+            txtTongTien.Text = e.So;
+            string sqlSua = "update DONXUAT set NGAYXUAT=@NGAYXUAT, NOIXUAT=@NOIXUAT, TONGTIEN=@TONGTIEN, MAKHO=@makho where MADX=@MADX";
+            SqlCommand comSua = new SqlCommand(sqlSua, con);
+            comSua.Parameters.AddWithValue("MADX", txtMaDon.Text);
+            comSua.Parameters.AddWithValue("NGAYXUAT", dtNgayXuat.Value);
+            comSua.Parameters.AddWithValue("NOIXUAT", txtNoiXuat.Text);
+            comSua.Parameters.AddWithValue("TONGTIEN", txtTongTien.Text);
+            comSua.Parameters.AddWithValue("MAKHO", txtMaKho.Text);
+            comSua.ExecuteNonQuery();
             hienThi();
         }
         //Hàm này dùng để vô hiệu hóa phím delete trên bàn phím người dùng.

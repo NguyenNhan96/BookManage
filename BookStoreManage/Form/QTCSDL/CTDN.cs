@@ -18,7 +18,7 @@ namespace QTCSDL
         }
         SqlConnection con = DBConnecter.sqlConnector();
         public String maDon = "";
-        int tong = 0;
+        public int tong = 0;
         private void CTDN_Load(object sender, EventArgs e)
         {
             con.Open();
@@ -27,7 +27,9 @@ namespace QTCSDL
         }
         private void CTDN_FormClosing(object sender, FormClosingEventArgs e)
         {
+            //DonNhap don = new DonNhap(this.tong);
             con.Close();
+            truyenGiaTien(this, new SuKien(lblTongGiaDonHang.Text)); //gọi sự kiện
         }
         public CTDN(String a)
             : this()
@@ -35,6 +37,15 @@ namespace QTCSDL
             maDon = a;
             txtMaDon.Text = a;
         }
+
+        // tạo eventHandler để truyền giá trị trong lblTongGiaDonHang 
+        private event EventHandler<SuKien> truyenGiaTien;
+        public event EventHandler<SuKien> TruyenGiaTien
+        {
+            add{ truyenGiaTien+= value;}
+            remove{truyenGiaTien -= value;}
+        }
+
         public void hienThi()
         {
             string sqlSelect = "select * from CTDN where MADN='" + txtMaDon.Text + "'";

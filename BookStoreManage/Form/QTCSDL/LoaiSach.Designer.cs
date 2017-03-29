@@ -31,10 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoaiSach));
             this.lblMaKho = new System.Windows.Forms.Label();
             this.dsLoai = new System.Windows.Forms.DataGridView();
-            this.MALOAI = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TENLOAI = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MOTA = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MAKHO = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblDiaChi = new System.Windows.Forms.Label();
             this.txtMoTa = new System.Windows.Forms.TextBox();
             this.lblTenKho = new System.Windows.Forms.Label();
@@ -42,8 +38,6 @@
             this.txtMaLoai = new System.Windows.Forms.TextBox();
             this.grbThongTin = new System.Windows.Forms.GroupBox();
             this.btnOK = new System.Windows.Forms.Button();
-            this.txtMaKho = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnThem = new System.Windows.Forms.Button();
@@ -55,6 +49,9 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.MALOAI = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TENLOAI = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MOTA = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dsLoai)).BeginInit();
             this.grbThongTin.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -84,40 +81,15 @@
             this.dsLoai.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.MALOAI,
             this.TENLOAI,
-            this.MOTA,
-            this.MAKHO});
+            this.MOTA});
             this.dsLoai.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dsLoai.Location = new System.Drawing.Point(0, 308);
+            this.dsLoai.Location = new System.Drawing.Point(0, 278);
             this.dsLoai.Name = "dsLoai";
             this.dsLoai.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dsLoai.Size = new System.Drawing.Size(803, 213);
+            this.dsLoai.Size = new System.Drawing.Size(803, 202);
             this.dsLoai.TabIndex = 7;
             this.dsLoai.SelectionChanged += new System.EventHandler(this.dsLoai_SelectionChanged);
             this.dsLoai.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dsLoai_UserDeletingRow);
-            // 
-            // MALOAI
-            // 
-            this.MALOAI.DataPropertyName = "MALOAI";
-            this.MALOAI.HeaderText = "Mã Loại";
-            this.MALOAI.Name = "MALOAI";
-            // 
-            // TENLOAI
-            // 
-            this.TENLOAI.DataPropertyName = "TENLOAI";
-            this.TENLOAI.HeaderText = "Tên Loại";
-            this.TENLOAI.Name = "TENLOAI";
-            // 
-            // MOTA
-            // 
-            this.MOTA.DataPropertyName = "MOTA";
-            this.MOTA.HeaderText = "Mô Tả";
-            this.MOTA.Name = "MOTA";
-            // 
-            // MAKHO
-            // 
-            this.MAKHO.DataPropertyName = "MAKHO";
-            this.MAKHO.HeaderText = "Mã Kho";
-            this.MAKHO.Name = "MAKHO";
             // 
             // lblDiaChi
             // 
@@ -172,8 +144,6 @@
             // grbThongTin
             // 
             this.grbThongTin.Controls.Add(this.btnOK);
-            this.grbThongTin.Controls.Add(this.txtMaKho);
-            this.grbThongTin.Controls.Add(this.label1);
             this.grbThongTin.Controls.Add(this.lblDiaChi);
             this.grbThongTin.Controls.Add(this.txtMoTa);
             this.grbThongTin.Controls.Add(this.lblTenKho);
@@ -184,7 +154,7 @@
             this.grbThongTin.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.grbThongTin.Location = new System.Drawing.Point(382, 32);
             this.grbThongTin.Name = "grbThongTin";
-            this.grbThongTin.Size = new System.Drawing.Size(388, 190);
+            this.grbThongTin.Size = new System.Drawing.Size(388, 162);
             this.grbThongTin.TabIndex = 9;
             this.grbThongTin.TabStop = false;
             this.grbThongTin.Text = "Thông tin";
@@ -194,34 +164,13 @@
             this.btnOK.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.btnOK.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.btnOK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnOK.Location = new System.Drawing.Point(145, 149);
+            this.btnOK.Location = new System.Drawing.Point(145, 120);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(81, 33);
             this.btnOK.TabIndex = 11;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-            // 
-            // txtMaKho
-            // 
-            this.txtMaKho.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.txtMaKho.Location = new System.Drawing.Point(115, 117);
-            this.txtMaKho.Name = "txtMaKho";
-            this.txtMaKho.Size = new System.Drawing.Size(111, 20);
-            this.txtMaKho.TabIndex = 10;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.SystemColors.Control;
-            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label1.Location = new System.Drawing.Point(31, 120);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(49, 15);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Mã Kho:";
             // 
             // groupBox1
             // 
@@ -232,7 +181,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.groupBox1.Location = new System.Drawing.Point(25, 32);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(337, 190);
+            this.groupBox1.Size = new System.Drawing.Size(337, 162);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Chức năng";
@@ -301,7 +250,7 @@
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.35F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.groupBox3.Location = new System.Drawing.Point(25, 223);
+            this.groupBox3.Location = new System.Drawing.Point(25, 193);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(745, 78);
             this.groupBox3.TabIndex = 12;
@@ -353,17 +302,35 @@
             this.label3.TabIndex = 10;
             this.label3.Text = "Mẹo: Chỉnh sửa các ô textbox phía trên để tiến hành:  ";
             // 
+            // MALOAI
+            // 
+            this.MALOAI.DataPropertyName = "MALOAI";
+            this.MALOAI.HeaderText = "Mã Loại";
+            this.MALOAI.Name = "MALOAI";
+            // 
+            // TENLOAI
+            // 
+            this.TENLOAI.DataPropertyName = "TENLOAI";
+            this.TENLOAI.HeaderText = "Tên Loại";
+            this.TENLOAI.Name = "TENLOAI";
+            // 
+            // MOTA
+            // 
+            this.MOTA.DataPropertyName = "MOTA";
+            this.MOTA.HeaderText = "Mô Tả";
+            this.MOTA.Name = "MOTA";
+            // 
             // LoaiSach
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(804, 523);
+            this.ClientSize = new System.Drawing.Size(804, 481);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dsLoai);
             this.Controls.Add(this.grbThongTin);
             this.Name = "LoaiSach";
-            this.Text = "LoaiSach";
+            this.Text = " ";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoaiSach_FormClosing);
             this.Load += new System.EventHandler(this.LoaiSach_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dsLoai)).EndInit();
@@ -386,12 +353,6 @@
         private System.Windows.Forms.TextBox txtTenLoai;
         private System.Windows.Forms.TextBox txtMaLoai;
         private System.Windows.Forms.GroupBox grbThongTin;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MALOAI;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TENLOAI;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MOTA;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MAKHO;
-        private System.Windows.Forms.TextBox txtMaKho;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Button btnThem;
@@ -404,5 +365,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MALOAI;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TENLOAI;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MOTA;
     }
 }

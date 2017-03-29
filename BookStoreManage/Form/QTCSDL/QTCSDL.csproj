@@ -116,6 +116,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SuKien.cs" />
     <EmbeddedResource Include="CTDN.resx">
       <DependentUpon>CTDN.cs</DependentUpon>
     </EmbeddedResource>

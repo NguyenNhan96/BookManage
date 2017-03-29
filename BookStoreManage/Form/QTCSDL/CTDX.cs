@@ -23,7 +23,7 @@ namespace QTCSDL
 
         private void CTDX_Load(object sender, EventArgs e)
         {
-            con.Open();
+             con.Open();
             hienThi();
             tinhTongTien();
         }
@@ -31,6 +31,14 @@ namespace QTCSDL
         private void CTDX_FormClosing(object sender, FormClosingEventArgs e)
         {
             con.Close();
+            truyenGiaTien(this, new SuKien(lblTongGiaDonHang.Text));
+        }
+        // tạo eventHandler để truyền giá trị trong lblTongGiaDonHang 
+        private event EventHandler<SuKien> truyenGiaTien;
+        public event EventHandler<SuKien> TruyenGiaTien
+        {
+            add { truyenGiaTien += value; }
+            remove { truyenGiaTien -= value; }
         }
         public CTDX(String a)
             : this()

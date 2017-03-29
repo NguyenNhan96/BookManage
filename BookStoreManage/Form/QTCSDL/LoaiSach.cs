@@ -80,11 +80,11 @@ namespace QTCSDL
                 this.txtMaLoai.Text = this.dsLoai.Rows[curRow].Cells[0].Value.ToString();
                 this.txtTenLoai.Text = this.dsLoai.Rows[curRow].Cells[1].Value.ToString();
                 this.txtMoTa.Text = this.dsLoai.Rows[curRow].Cells[2].Value.ToString();
-                this.txtMaKho.Text = this.dsLoai.Rows[curRow].Cells[3].Value.ToString();
+                //this.txtMaKho.Text = this.dsLoai.Rows[curRow].Cells[3].Value.ToString();
             }
             else
             {
-                this.txtMaKho.Clear();
+                //this.txtMaKho.Clear();
                 this.txtMaLoai.Clear();
                 this.txtMoTa.Clear();
                 this.txtTenLoai.Clear();
@@ -98,10 +98,9 @@ namespace QTCSDL
                     this.grbMode = -1;
                     try
                     {
-                        string sqlSua = "update LOAI set TENLOAI=@TENLOAI, MOTA= @MOTA, MAKHO=@MAKHO where MALOAI=@MALOAI";
+                        string sqlSua = "update LOAI set TENLOAI=@TENLOAI, MOTA= @MOTA where MALOAI=@MALOAI";
                         SqlCommand comSua = new SqlCommand(sqlSua, con);
                         comSua.Parameters.AddWithValue("MALOAI", txtMaLoai.Text);
-                        comSua.Parameters.AddWithValue("MAKHO", txtMaKho.Text);
                         comSua.Parameters.AddWithValue("TENLOAI", txtTenLoai.Text);
                         comSua.Parameters.AddWithValue("MOTA", txtMoTa.Text);
                         if (MessageBox.Show("Bạn muốn sửa?", "Thông báo.", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
@@ -122,12 +121,11 @@ namespace QTCSDL
                     this.grbMode = -1;
                     try
                     {
-                        string sqlThem = "insert into LOAI values(@MALOAI, @TENLOAI, @MOTA, @MAKHO)";
+                        string sqlThem = "insert into LOAI values(@MALOAI, @TENLOAI, @MOTA)";
                         SqlCommand comThem = new SqlCommand(sqlThem, con);// bat dau cau truy van
                         comThem.Parameters.AddWithValue("MALOAI", txtMaLoai.Text);
                         comThem.Parameters.AddWithValue("TENLOAI", txtTenLoai.Text);
                         comThem.Parameters.AddWithValue("MOTA", txtMoTa.Text);
-                        comThem.Parameters.AddWithValue("MAKHO", txtMaKho.Text);
                         comThem.ExecuteNonQuery();
                         hienThi();
                         MessageBox.Show("Thêm thành công !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);

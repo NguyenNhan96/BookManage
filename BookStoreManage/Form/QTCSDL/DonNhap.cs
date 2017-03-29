@@ -18,12 +18,28 @@ namespace QTCSDL
         //  0 : CHANGE
         //  1 : ADD
         private int grbMode = -1;
+        public int temp;
         public DonNhap()
         {
             InitializeComponent();
         }
         SqlConnection con = DBConnecter.sqlConnector();
-
+        public DonNhap(int i)
+            : this()
+        {
+            con.Open();
+            grbThongTin.Enabled = true;
+            this.txtTongTien.Text = i.ToString();
+            string sqlSua = "update DONNHAP set NGAYNHAP=@NGAYNHAP, NOINHAP=@NOINHAP, TONGTIEN=@TONGTIEN, MAKHO=@makho where MADN=@MADN";
+            SqlCommand comSua = new SqlCommand(sqlSua, con);
+            comSua.Parameters.AddWithValue("MADN", txtMaDon.Text);
+            comSua.Parameters.AddWithValue("NGAYNHAP", dtNgayNhap.Value);
+            comSua.Parameters.AddWithValue("NOINHAP", txtNoiNhap.Text);
+            comSua.Parameters.AddWithValue("TONGTIEN", txtTongTien.Text);
+            comSua.Parameters.AddWithValue("MAKHO", txtMaKho.Text);
+            comSua.ExecuteNonQuery();
+            hienThi();
+        }
         private void DonNhap_Load(object sender, EventArgs e)
         {
             con.Open();
@@ -140,8 +156,25 @@ namespace QTCSDL
             {
                 this.bienTruyen = txtMaDon.Text.ToString();
                 CTDN chiTietDonNhap = new CTDN(this.bienTruyen.ToString());
+                chiTietDonNhap.TruyenGiaTien += chiTietDonNhap_TruyenGiaTien; //gõ "chiTietDonNhap.TruyenGiaTien+= " , nhấn tab, tab để tạo hàm dưới
                 chiTietDonNhap.Show();
+                
             }
+
+        }
+
+        private void chiTietDonNhap_TruyenGiaTien(object sender, SuKien e)
+        {
+            txtTongTien.Text = e.So;
+            string sqlSua = "update DONNHAP set NGAYNHAP=@NGAYNHAP, NOINHAP=@NOINHAP, TONGTIEN=@TONGTIEN, MAKHO=@makho where MADN=@MADN";
+            SqlCommand comSua = new SqlCommand(sqlSua, con);
+            comSua.Parameters.AddWithValue("MADN", txtMaDon.Text);
+            comSua.Parameters.AddWithValue("NGAYNHAP", dtNgayNhap.Value);
+            comSua.Parameters.AddWithValue("NOINHAP", txtNoiNhap.Text);
+            comSua.Parameters.AddWithValue("TONGTIEN", txtTongTien.Text);
+            comSua.Parameters.AddWithValue("MAKHO", txtMaKho.Text);
+            comSua.ExecuteNonQuery();
+            hienThi();
         }
         //Hàm này dùng để vô hiệu hóa phím delete trên bàn phím người dùng.
         //tức là dữ liệu ở dataGridView sẽ không bị xóa đi khi nhấn delete trên bàn phím
@@ -149,6 +182,7 @@ namespace QTCSDL
         {
             e.Cancel = true;
         }
+
        
     }
 }

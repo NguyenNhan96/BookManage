@@ -62,7 +62,6 @@ namespace QTCSDL
         {
             try
             {
-
                 string sqlSelect = "select COUNT(*) from TAIKHOAN where USERNAME= @USERNAME and PASS=@PASS";
                 SqlCommand com = new SqlCommand(sqlSelect, con);
                 com.Parameters.AddWithValue("USERNAME", txtTenDangNhap.Text);
@@ -71,7 +70,8 @@ namespace QTCSDL
                 SqlDataAdapter da = new SqlDataAdapter(com); //vận chuyển dữ liệu về
                 DataTable dt = new DataTable();// tạo một kho ảo để chứa dữ liệu
                 da.Fill(dt);// đổ dữ liệu vào kho
-
+                
+                //hiển thị tên tài khoản vào label.
                 SqlCommand com2 = new SqlCommand("select HOTEN from TAIKHOAN where USERNAME = @USERNAME ", con);
                 com2.Parameters.AddWithValue("USERNAME", txtTenDangNhap.Text);
                 com2.CommandType = CommandType.Text;
@@ -98,7 +98,6 @@ namespace QTCSDL
                     lblThongBao.Text = "Tài khoản hoặc mật khẩu không đúng.";
                     txtMatKhau.Text = "";
                     txtTenDangNhap.Focus();
-                    //MessageBox.Show("Tài khoản hoặc mật khẩu không đúng.\nVui lòng kiểm tra lại.","Lỗi!", MessageBoxButtons.OK , MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -122,8 +121,5 @@ namespace QTCSDL
             btnDangXuat.Enabled = false;
 
         }
-
-     
-
     }
 }
