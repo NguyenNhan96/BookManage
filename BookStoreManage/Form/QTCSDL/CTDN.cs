@@ -16,6 +16,11 @@ namespace QTCSDL
         {
             InitializeComponent();
         }
+        //grbMode
+        // -1 : NO USE 
+        //  0 : CHANGE
+        //  1 : ADD
+        private int grbMode = -1;
         SqlConnection con = DBConnecter.sqlConnector();
         public String maDon = "";
         public int tong = 0;
@@ -24,12 +29,38 @@ namespace QTCSDL
             con.Open();
             hienThi();
             tinhTongTien();
+            hienThiTextbox(false);
+        }
+        //hiển thị khi người dùng nhấn vào các nút chức năng. ẩn đi để giảm sự phân tâm của người dùng
+        public void hienThiTextbox(Boolean chk)
+        {
+            if (chk==true)
+            {
+                txtMaDon.Enabled = true;
+                txtMaSach.Enabled = true;
+                txtMCTN.Enabled = true;
+                txtSoLuong.Enabled = true;
+                txtGia.Enabled = true;
+            }
+            else
+            {
+                txtMaDon.Enabled = false;
+                txtMaSach.Enabled = false;
+                txtMCTN.Enabled = false;
+                txtSoLuong.Enabled = false;
+                txtGia.Enabled = false;
+            }
+
+
         }
         private void CTDN_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //DonNhap don = new DonNhap(this.tong);
             con.Close();
-            truyenGiaTien(this, new SuKien(lblTongGiaDonHang.Text)); //gọi sự kiện
+            if (lblTongGiaDonHang.Text == "0")
+            {
+            }
+            else
+                truyenGiaTien(this, new SuKien(lblTongGiaDonHang.Text)); //gọi sự kiện
         }
         public CTDN(String a)
             : this()
@@ -42,10 +73,11 @@ namespace QTCSDL
         private event EventHandler<SuKien> truyenGiaTien;
         public event EventHandler<SuKien> TruyenGiaTien
         {
-            add{ truyenGiaTien+= value;}
-            remove{truyenGiaTien -= value;}
+            add { truyenGiaTien += value; }
+            remove { truyenGiaTien -= value; }
         }
 
+        //Hiển thị dữ liệu tương ứng với MADN
         public void hienThi()
         {
             string sqlSelect = "select * from CTDN where MADN='" + txtMaDon.Text + "'";
@@ -57,6 +89,7 @@ namespace QTCSDL
             dsCTDN.DataSource = dt;
             tinhTongTien();
         }
+        //Hiển thị tất cả dữ liệu trong bảng CTDN
         public void hienThiTatCa()
         {
             string sqlSelect = "select * from CTDN ";
@@ -78,7 +111,7 @@ namespace QTCSDL
             }
             else
             {
-                //dùng tr-catch để bắt lỗi, lỗi nhập vào quá giới hạn kiểu Int, lỗi nhập vào là kí tự không phải số...
+                //dùng try-catch để bắt lỗi, lỗi nhập vào quá giới hạn kiểu Int, lỗi nhập vào là kí tự không phải số...
                 try
                 {
                     soLuong = Int32.Parse(txtSoLuong.Text.ToString()); //ép kiểu int cho giá trị ô text mình nhập vào
@@ -97,13 +130,9 @@ namespace QTCSDL
                 {
                     MessageBox.Show("Giá trị nhập vào không hợp lệ.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtGia.Clear();
-
                 }
                 lblTongTien.Text = (soLuong * gia).ToString(); //Tổng giá tiền đơn hàng chi tiết.
             }
-
-
-
         }
         //Hàm tính tổng giá tiền của đơn hàng từ các đơn hàng chi tiết.
         public void tinhTongTien()
@@ -117,74 +146,59 @@ namespace QTCSDL
             lblTongGiaDonHang.Text = (tongGia.ToString());
             this.tong = tongGia;
         }
-       
-        public void loadToTextBox()
+
+        //hàm dùng để load dữ liệu vào các ô textbox để người dùng xem chi tiết hoặc chỉnh sửa dữ liệu
+        public void loadToTextBox(Boolean check)
         {
-            txtMCTN.DataBindings.Clear();
-            txtMCTN.DataBindings.Add("Text", dsCTDN.DataSource, "MACTN");
-            txtMaSach.DataBindings.Clear();
-            txtMaSach.DataBindings.Add("Text", dsCTDN.DataSource, "MASACH");
-            txtGia.DataBindings.Add("Text", dsCTDN.DataSource, "GIA");
-            txtGia.DataBindings.Clear();
-            txtSoLuong.DataBindings.Add("Text", dsCTDN.DataSource, "SL");
-            txtSoLuong.DataBindings.Clear();
-            tinhTien();
+            if (check)
+            {
+                txtMCTN.DataBindings.Clear();
+                txtMCTN.DataBindings.Add("Text", dsCTDN.DataSource, "MACTN");
+                txtMaSach.DataBindings.Clear();
+                txtMaSach.DataBindings.Add("Text", dsCTDN.DataSource, "MASACH");
+                txtGia.DataBindings.Add("Text", dsCTDN.DataSource, "GIA");
+                txtGia.DataBindings.Clear();
+                txtSoLuong.DataBindings.Add("Text", dsCTDN.DataSource, "SL");
+                txtSoLuong.DataBindings.Clear();
+                tinhTien();
+            }
+            else
+            {
+                txtGia.Clear(); txtMaSach.Clear(); txtMCTN.Clear(); txtSoLuong.Clear();
+                lblTongTien.Text = ""; lblTongGiaDonHang.Text = "";
+            }
+
         }
 
         private void dsCTDN_SelectionChanged(object sender, EventArgs e)
         {
-            loadToTextBox();
+            loadToTextBox(true);
         }
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                string sqlThem = "insert into CTDN values(@MACTN,@MADN, @MASACH,@GIA, @SL)";
-                SqlCommand comThem = new SqlCommand(sqlThem, con);// bat dau cau truy van
-                comThem.Parameters.AddWithValue("MACTN", txtMCTN.Text);
-                comThem.Parameters.AddWithValue("MADN", txtMaDon.Text);
-                comThem.Parameters.AddWithValue("MASACH", txtMaSach.Text);
-                comThem.Parameters.AddWithValue("GIA", txtGia.Text);
-                comThem.Parameters.AddWithValue("SL", txtSoLuong.Text);
-                comThem.ExecuteNonQuery();
-                hienThi();
-                MessageBox.Show("Thêm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch
-            {
-                MessageBox.Show("Lỗi, không thêm được.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            loadToTextBox(false);
+            this.grbThongTin.Text = "Thêm đơn chi tiết mới";
+            this.grbMode = 1;
+            hienThiTextbox(true);
+            txtMCTN.Focus();
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             hienThi();
             tinhTongTien();
+            hienThiTextbox(false);
+            this.grbThongTin.Text = "Thông tin chi tiết";
         }
 
         private void btnSua_Click(object sender, EventArgs e)
         {
-            try
-            {
-                string sqlSua = "update CTDN set MADN=@MADN, MASACH=@MASACH,GIA=@GIA, SL=@SL where MACTN=@MACTN";
-                SqlCommand comSua = new SqlCommand(sqlSua, con);
-                comSua.Parameters.AddWithValue("MADN", txtMaDon.Text);
-                comSua.Parameters.AddWithValue("MASACH", txtMaSach.Text);
-                comSua.Parameters.AddWithValue("GIA", txtGia.Text);
-                comSua.Parameters.AddWithValue("SL", txtSoLuong.Text);
-                comSua.Parameters.AddWithValue("MACTN", txtMCTN.Text);
-                if (MessageBox.Show("Bạn muốn sửa?", "Thông báo.", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
-                {
-                    comSua.ExecuteNonQuery();
-                }
-                hienThi();
-                MessageBox.Show("Sửa thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch
-            {
-                MessageBox.Show("Lỗi, không sửa được.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            hienThiTextbox(true);
+            loadToTextBox(true);
+            this.grbThongTin.Text = "Sửa thông tin đơn chi tiết. ";
+            this.grbMode = 0;
+
         }
 
         private void btnXoa_Click(object sender, EventArgs e)
@@ -197,9 +211,9 @@ namespace QTCSDL
                 if (MessageBox.Show("Bạn muốn xóa?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
                 {
                     comXoa.ExecuteNonQuery();
+                    MessageBox.Show("Xóa thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 hienThi();
-                MessageBox.Show("Xóa thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch
             {
@@ -210,6 +224,7 @@ namespace QTCSDL
         private void btnXem_Click(object sender, EventArgs e)
         {
             hienThiTatCa();
+            hienThiTextbox(false);
         }
 
         private void txtSoLuong_TextChanged(object sender, EventArgs e)
@@ -255,6 +270,64 @@ namespace QTCSDL
         {
             e.Cancel = true;
         }
-        
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            switch (grbMode)
+            {
+                case 1:
+                    try
+                    {
+                        string sqlThem = "insert into CTDN values(@MACTN,@MADN, @MASACH,@GIA, @SL)";
+                        SqlCommand comThem = new SqlCommand(sqlThem, con);// bat dau cau truy van
+                        comThem.Parameters.AddWithValue("MACTN", txtMCTN.Text);
+                        comThem.Parameters.AddWithValue("MADN", txtMaDon.Text);
+                        comThem.Parameters.AddWithValue("MASACH", txtMaSach.Text);
+                        comThem.Parameters.AddWithValue("GIA", txtGia.Text);
+                        comThem.Parameters.AddWithValue("SL", txtSoLuong.Text);
+                        comThem.ExecuteNonQuery();
+                        MessageBox.Show("Thêm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Lỗi, không thêm được.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        hienThi();
+                        this.grbMode = -1;
+                        hienThiTextbox(false);
+                    }
+                    break;
+                case 0:
+                    try
+                    {
+                        string sqlSua = "update CTDN set MADN=@MADN, MASACH=@MASACH,GIA=@GIA, SL=@SL where MACTN=@MACTN";
+                        SqlCommand comSua = new SqlCommand(sqlSua, con);
+                        comSua.Parameters.AddWithValue("MADN", txtMaDon.Text);
+                        comSua.Parameters.AddWithValue("MASACH", txtMaSach.Text);
+                        comSua.Parameters.AddWithValue("GIA", txtGia.Text);
+                        comSua.Parameters.AddWithValue("SL", txtSoLuong.Text);
+                        comSua.Parameters.AddWithValue("MACTN", txtMCTN.Text);
+                        if (MessageBox.Show("Bạn muốn sửa?", "Thông báo.", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+                        {
+                            comSua.ExecuteNonQuery();
+                            MessageBox.Show("Sửa thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Lỗi, không sửa được.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        hienThi();
+                        hienThiTextbox(false);
+                        this.grbMode = -1;
+                    }
+                    break;
+            }
+        }
+
     }
 }

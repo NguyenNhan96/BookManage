@@ -13,15 +13,12 @@ namespace QTCSDL
 {
     public partial class LoaiSach : Form
     {
-        //GROUP BOX USER MODE
-        // -1 : NO USE
-        //  0 : CHANGE
-        //  1 : ADD
-        private int grbMode = -1;
+        private string maLoai, tenLoai, moTa;
         public LoaiSach()
         {
             InitializeComponent();
         }
+
         SqlConnection con = DBConnecter.sqlConnector();
         private void LoaiSach_Load(object sender, EventArgs e)
         {
@@ -44,11 +41,6 @@ namespace QTCSDL
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 dsLoai.DataSource = dt;
-               
-                
-                //loadToComboBox();
-               
-
             }
             catch
             {
@@ -76,83 +68,32 @@ namespace QTCSDL
         {
             if (check)
             {
-                int curRow = this.dsLoai.CurrentRow.Index;
-                this.txtMaLoai.Text = this.dsLoai.Rows[curRow].Cells[0].Value.ToString();
-                this.txtTenLoai.Text = this.dsLoai.Rows[curRow].Cells[1].Value.ToString();
-                this.txtMoTa.Text = this.dsLoai.Rows[curRow].Cells[2].Value.ToString();
-                //this.txtMaKho.Text = this.dsLoai.Rows[curRow].Cells[3].Value.ToString();
-            }
-            else
-            {
-                //this.txtMaKho.Clear();
-                this.txtMaLoai.Clear();
-                this.txtMoTa.Clear();
-                this.txtTenLoai.Clear();
-            }
-        }
-        private void btnOK_Click(object sender, EventArgs e)
-        {
-            switch (grbMode)
-            {
-                case 0:
-                    this.grbMode = -1;
-                    try
-                    {
-                        string sqlSua = "update LOAI set TENLOAI=@TENLOAI, MOTA= @MOTA where MALOAI=@MALOAI";
-                        SqlCommand comSua = new SqlCommand(sqlSua, con);
-                        comSua.Parameters.AddWithValue("MALOAI", txtMaLoai.Text);
-                        comSua.Parameters.AddWithValue("TENLOAI", txtTenLoai.Text);
-                        comSua.Parameters.AddWithValue("MOTA", txtMoTa.Text);
-                        if (MessageBox.Show("Bạn muốn sửa?", "Thông báo.", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
-                        {
-                            comSua.ExecuteNonQuery();
-                        }
-                        hienThi();
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Lỗi, không sửa được.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    loadToTextBox(true);
-                    this.grbThongTin.Enabled = false;
-                    this.hienThi();
-                    break;
-                case 1:
-                    this.grbMode = -1;
-                    try
-                    {
-                        string sqlThem = "insert into LOAI values(@MALOAI, @TENLOAI, @MOTA)";
-                        SqlCommand comThem = new SqlCommand(sqlThem, con);// bat dau cau truy van
-                        comThem.Parameters.AddWithValue("MALOAI", txtMaLoai.Text);
-                        comThem.Parameters.AddWithValue("TENLOAI", txtTenLoai.Text);
-                        comThem.Parameters.AddWithValue("MOTA", txtMoTa.Text);
-                        comThem.ExecuteNonQuery();
-                        hienThi();
-                        MessageBox.Show("Thêm thành công !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Lỗi, không thêm được.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    this.loadToTextBox(true);
-                    this.grbThongTin.Enabled = false;
-                    this.hienThi();
-                    break;
+                int curRow ;
+                try
+                {
+                    curRow = this.dsLoai.CurrentRow.Index;
+                    this.maLoai = this.dsLoai.Rows[curRow].Cells[0].Value.ToString();
+                    this.tenLoai = this.dsLoai.Rows[curRow].Cells[1].Value.ToString();
+                    this.moTa = this.dsLoai.Rows[curRow].Cells[2].Value.ToString();
+                }
+                catch
+                {
+                    MessageBox.Show("Lỗi", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
+        
         private void btnThem_Click_1(object sender, EventArgs e)
         {
-            this.loadToTextBox(false);
-            this.grbMode = 1;
-            this.grbThongTin.Text = "Nhập Loại Sách Cần Thêm";
-            this.grbThongTin.Enabled = true;
+            LoaiFunction lf = new LoaiFunction();
+            lf.mode = 1;
+            lf.Show();
         }
         private void btnSua_Click_1(object sender, EventArgs e)
         {
-            this.grbMode = 0;
-            this.grbThongTin.Enabled = true;
-            this.loadToTextBox(true);
-            this.grbThongTin.Text = "Nhập thông tin cần sửa";
+            LoaiFunction lf = new LoaiFunction(maLoai, tenLoai, moTa);
+            lf.mode = 0;
+            lf.Show();
         }
         private void btnXoa_Click(object sender, EventArgs e)
         {
@@ -160,10 +101,11 @@ namespace QTCSDL
             {
                 string sqlXoa = "delete from LOAI where MALOAI=@MALOAI";
                 SqlCommand comXoa = new SqlCommand(sqlXoa, con); //bat dau cau truy van
-                comXoa.Parameters.AddWithValue("MALOAI", txtMaLoai.Text);
+                comXoa.Parameters.AddWithValue("MALOAI", maLoai);
                 if (MessageBox.Show("Bạn muốn xóa?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
                 {
                     comXoa.ExecuteNonQuery();
+                    MessageBox.Show("Xóa thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 hienThi();
             }
@@ -174,9 +116,6 @@ namespace QTCSDL
         }
         private void btnRefresh_Click_1(object sender, EventArgs e)
         {
-            this.loadToTextBox(true);
-            this.grbThongTin.Enabled = false;
-            this.grbMode = -1;
             this.hienThi();
         }
         //Hàm này dùng để vô hiệu hóa phím delete trên bàn phím người dùng.

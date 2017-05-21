@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace QTCSDL
 {
-    public partial class Home : Form
+    public partial class TimKiem : Form
     {
-        public Home()
+        public TimKiem()
         {
             InitializeComponent();
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TimKiem_Load(object sender, EventArgs e)
         {
 
         }

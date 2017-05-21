@@ -13,11 +13,15 @@ namespace QTCSDL
 {
     public partial class Sach : Form
     {
-        //GROUP BOX USER MODE
-        // -1 : NO USE
-        //  0 : CHANGE
-        //  1 : ADD
-        private int grbMode = -1;
+
+        //cac bien dung de luu tam de truyen qua form khac
+        private string maSach, maKho, maLoai, nhaXB, tenSach, tacGia;
+        private int gia, namXB, sL;
+        /*--------  */
+        //tao su kien lay thong tin sach chuyen qua form chinh sua
+        //public delegate void EditHandler(string maSach,string tenSach, string tacGia, string nhaXB, int gia, int sL, int namXB, string maLoai, string maKho);
+        //public event EditHandler EditEvent;
+        /* ----------------------------*/
         public Sach()
         {
             InitializeComponent();
@@ -37,10 +41,9 @@ namespace QTCSDL
         }
         private void dsSach_SelectionChanged_1(object sender, EventArgs e)
         {
-            this.grbThongTin.Enabled = false;
             loadToTextBox(true);
         }
-        private void hienThi()
+        public void hienThi()
         {
             try
             {
@@ -58,135 +61,90 @@ namespace QTCSDL
                 MessageBox.Show("Lỗi kết nối cơ sở dữ liệu.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        //Viet 1 ham load du lieu vao cac textbox
+        //Viet 1 ham load du lieu khi minh click vao dataGridVieww, truyen cho cac bien.
         private void loadToTextBox(Boolean check)
         {
             if (check)
             {
-                int curRow = this.dsSach.CurrentRow.Index;
-                txtMaSach.Text = this.dsSach.Rows[curRow].Cells[0].Value.ToString();
-                txtGia.Text = this.dsSach.Rows[curRow].Cells[5].Value.ToString();
-                txtMaLoai.Text = this.dsSach.Rows[curRow].Cells[7].Value.ToString();
-                txtNamXB.Text = this.dsSach.Rows[curRow].Cells[4].Value.ToString();
-                txtNhaXB.Text = this.dsSach.Rows[curRow].Cells[3].Value.ToString();
-                txtSL.Text = this.dsSach.Rows[curRow].Cells[6].Value.ToString();
-                txtTenSach.Text = this.dsSach.Rows[curRow].Cells[1].Value.ToString();
-                txtTacGia.Text = this.dsSach.Rows[curRow].Cells[2].Value.ToString();
+                int curRow ;
+                try
+                {
+                    curRow = this.dsSach.CurrentRow.Index;
+                    //txtMaSach.Text = this.dsSach.Rows[curRow].Cells[0].Value.ToString();
+                    this.maSach = this.dsSach.Rows[curRow].Cells[0].Value.ToString();
+                    this.gia = Int32.Parse(this.dsSach.Rows[curRow].Cells[5].Value.ToString());                     //bi loi khi nhan vao dong cuoi cung ko co index
+                    this.maLoai = this.dsSach.Rows[curRow].Cells[7].Value.ToString();
+                    this.namXB = Int32.Parse(this.dsSach.Rows[curRow].Cells[4].Value.ToString());
+                    this.nhaXB = this.dsSach.Rows[curRow].Cells[3].Value.ToString();
+                    this.sL = Int32.Parse(this.dsSach.Rows[curRow].Cells[6].Value.ToString());
+                    this.tenSach = this.dsSach.Rows[curRow].Cells[1].Value.ToString();
+                    this.tacGia = this.dsSach.Rows[curRow].Cells[2].Value.ToString();
+                    this.maKho = this.dsSach.Rows[curRow].Cells[8].Value.ToString();
+                }
+                catch
+                {
+                    MessageBox.Show("Không click vào ô trống", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            else
-            {
-                txtMaSach.Clear();
-                txtGia.Clear();
-                txtMaLoai.Clear();
-                txtNamXB.Clear();
-                txtNhaXB.Clear();
-                txtSL.Clear();
-                txtTenSach.Clear();
-                txtTacGia.Clear();
-            }
         }
-        private void btnThem_Click(object sender, EventArgs e)
-        {
-            loadToTextBox(false);
-            this.grbThongTin.Enabled = true;
-            this.grbThongTin.Text = "Nhập Sách Cần Thêm";
-            this.grbMode = 1;
-        }
-        private void btnSua_Click(object sender, EventArgs e)
-        {
-            loadToTextBox(true);
-            this.grbThongTin.Text = "Nhập thông tin cần sửa";
-            this.grbThongTin.Enabled = true;
-            this.grbMode = 0;
-        }
-        private void dsSach_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            
-        }
-        private void dsSach_RowEnter(object sender, DataGridViewCellEventArgs e)
-        {
 
-        }
-        private void btnOK_Click(object sender, EventArgs e)
+        //Hàm này dùng để vô hiệu hóa phím delete trên bàn phím người dùng.
+        //tức là dữ liệu ở dataGridView sẽ không bị xóa đi khi nhấn delete trên bàn phím
+        private void dsSach_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
-            switch (grbMode)
-            {
-                case 1:
-                    try{
-                        string sqlThem = "INSERT INTO SACH VALUES(@MASACH, @TENSACH, @TACGIA, @NHAXB, @NAMXB,@GIA, @SOLUONG,@MALOAI)";
-                        SqlCommand com = new SqlCommand(sqlThem, con);// bat dau cau truy van
-                        com.Parameters.AddWithValue("MASACH", txtMaSach.Text);
-                        com.Parameters.AddWithValue("TENSACH", txtTenSach.Text);
-                        com.Parameters.AddWithValue("TACGIA", txtTacGia.Text);
-                        com.Parameters.AddWithValue("NHAXB", txtNhaXB.Text);
-                        com.Parameters.AddWithValue("NAMXB", txtNamXB.Text);
-                        com.Parameters.AddWithValue("GIA", txtGia.Text);
-                        com.Parameters.AddWithValue("SOLUONG", txtSL.Text);
-                        com.Parameters.AddWithValue("MALOAI", txtMaLoai.Text);
-                        com.ExecuteNonQuery();
-                        MessageBox.Show("Thêm Sách Thành Công !","Thông báo",MessageBoxButtons.OK,MessageBoxIcon.Information);
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Lỗi, không thêm được.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    finally
-                    {
-                        hienThi();
-                    }
-                    this.grbThongTin.Enabled = false;
-                    this.hienThi();
-                    this.grbMode = -1;
-                    break;
+            e.Cancel = true;
+        }
 
-                case 0:
-                    try{
-                        string sqlSua = "update SACH set TENSACH= @TENSACH, TACGIA=@TACGIA, NHAXB=@NHAXB, NAMXB=@NAMXB, GIA=@GIA, SOLUONG=@SOLUONG, MALOAI=@MALOAI where MASACH=@MASACH";
-                        SqlCommand com = new SqlCommand(sqlSua, con);// bat dau cau truy van
-                        com.Parameters.AddWithValue("MASACH", txtMaSach.Text);
-                        com.Parameters.AddWithValue("TENSACH", txtTenSach.Text);
-                        com.Parameters.AddWithValue("TACGIA", txtTacGia.Text);
-                        com.Parameters.AddWithValue("NHAXB", txtNhaXB.Text);
-                        com.Parameters.AddWithValue("NAMXB", txtNamXB.Text);
-                        com.Parameters.AddWithValue("GIA", txtGia.Text);
-                        com.Parameters.AddWithValue("SOLUONG", txtSL.Text);
-                        com.Parameters.AddWithValue("MALOAI", txtMaLoai.Text);
-                        if (MessageBox.Show("Bạn muốn sửa?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
-                        {
-                            com.ExecuteNonQuery();
-                        }
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Lỗi, không sửa được.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    finally
-                    {
-                        hienThi();
-                    }
-                    this.grbThongTin.Enabled = false;
-                    this.hienThi();
-                    this.grbMode = -1;
-                    break;
+        //Những hàm KeyPress dưới đây dùng để kiểm tra kí tự nhập vào. Chỉ cho phép nhập số
+        private void txtGia_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
             }
         }
-        private void btnRefresh_Click(object sender, EventArgs e)
+
+        private void txtNamXB_KeyPress(object sender, KeyPressEventArgs e)
         {
-            this.loadToTextBox(true);
-            this.grbThongTin.Enabled = false;
-            this.grbMode = -1;
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtSL_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        //----------------------------------------------------------------------------------------------------------------//
+        private void btnThem2_Click(object sender, EventArgs e)
+        {
+            SachFunction sf = new SachFunction();
+            sf.mode = 1; //truyen cho bien mode de xac dinh tien hanh them hoac sua.
+            sf.Show();
+        }
+
+        private void btnRefresh2_Click(object sender, EventArgs e)
+        {
             this.hienThi();
         }
-        private void btnXoa_MouseClick(object sender, MouseEventArgs e)
+
+        private void btnXoa2_Click(object sender, EventArgs e)
         {
             try
             {
-                string sqlXoa = "delete from SACH where MASACH=@MASACH";
+                string sqlXoa = "delete from SACH where MASACH=@MASACH and MAKHO=@MAKHO";
                 SqlCommand com = new SqlCommand(sqlXoa, con);// bat dau cau truy van
-                com.Parameters.AddWithValue("MASACH", txtMaSach.Text);
+                com.Parameters.AddWithValue("MASACH", maSach);
+                com.Parameters.AddWithValue("MAKHO", maKho);
                 if (MessageBox.Show("Bạn muốn xóa?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
                 {
                     com.ExecuteNonQuery();
+                    MessageBox.Show("Xóa thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 hienThi();
             }
@@ -195,11 +153,86 @@ namespace QTCSDL
                 MessageBox.Show("Lỗi, không xóa được.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        //Hàm này dùng để vô hiệu hóa phím delete trên bàn phím người dùng.
-        //tức là dữ liệu ở dataGridView sẽ không bị xóa đi khi nhấn delete trên bàn phím
-        private void dsSach_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+
+        private void btnSua2_Click(object sender, EventArgs e)
         {
-            e.Cancel = true;
+            SachFunction sf = new SachFunction(maSach, tenSach, tacGia, nhaXB, gia, sL, namXB, maLoai, maKho);
+            sf.mode = 0;
+            sf.Show();
         }
+
+        private void txtTimMa_TextChanged(object sender, EventArgs e)
+        {
+            txtTimMa.ForeColor = Color.Black;
+            txtTimTen.Text = "";
+            seachDisplay();
+        }
+
+        private void txtTimten_TextChanged(object sender, EventArgs e)
+        {
+            txtTimMa.Text = "";
+            txtTimTen.ForeColor = Color.Black;
+            seachDisplay();
+        }
+
+        private void picTim_Click(object sender, EventArgs e)
+        {
+            seachDisplay();
+        }
+        private void seachDisplay()
+        {
+            DataTable dt = new DataTable();
+            //dsSach.DataSource = dt;
+            if (txtTimMa.Text.Length > 0)
+            {
+                SqlDataAdapter sda = new SqlDataAdapter("select * from SACH where MASACH like'%" + txtTimMa.Text + "%'", con);
+                sda.Fill(dt);//do du lieu vao kho
+            }
+            else if (txtTimTen.Text.Length > 0)
+            {
+                SqlDataAdapter sda = new SqlDataAdapter("select * from SACH where [TENSACH] like N'%" + txtTimTen.Text + "%'", con);
+                sda.Fill(dt);//do du lieu vao kho
+            }
+            dsSach.DataSource = dt;
+        }
+
+        private void txtTimMa_Enter(object sender, EventArgs e)
+        {
+            if (txtTimMa.Text == txtTimMa.Tag.ToString())
+            {
+                txtTimMa.Text = "";
+                txtTimMa.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtTimMa_Leave(object sender, EventArgs e)
+        {
+            if (txtTimMa.Text.Trim() == "")
+            {
+                txtTimMa.Text = txtTimMa.Tag.ToString();
+                txtTimMa.ForeColor = Color.Silver;
+            }
+        }
+
+        private void txtTimten_Leave(object sender, EventArgs e)
+        {
+            if (txtTimTen.Text.Trim() == "")
+            {
+                txtTimTen.Text = txtTimTen.Tag.ToString();
+                txtTimTen.ForeColor = Color.Silver;
+            }
+        }
+
+        private void txtTimten_Enter(object sender, EventArgs e)
+        {
+            if (txtTimTen.Text == txtTimTen.Tag.ToString())
+            {
+                txtTimTen.Text = "";
+                txtTimTen.ForeColor = Color.Black;
+            }
+        }
+
+
+       
     }
 }

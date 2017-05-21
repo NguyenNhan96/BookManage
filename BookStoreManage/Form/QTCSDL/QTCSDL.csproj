@@ -59,6 +59,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChiTietNhap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChiTietNhap.Designer.cs">
+      <DependentUpon>ChiTietNhap.cs</DependentUpon>
+    </Compile>
     <Compile Include="CTDN.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,17 +90,23 @@
     <Compile Include="DonXuat.Designer.cs">
       <DependentUpon>DonXuat.cs</DependentUpon>
     </Compile>
-    <Compile Include="Home.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Home.Designer.cs">
-      <DependentUpon>Home.cs</DependentUpon>
-    </Compile>
     <Compile Include="Kho.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Kho.Designer.cs">
       <DependentUpon>Kho.cs</DependentUpon>
+    </Compile>
+    <Compile Include="KhoFunction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="KhoFunction.Designer.cs">
+      <DependentUpon>KhoFunction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoaiFunction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoaiFunction.Designer.cs">
+      <DependentUpon>LoaiFunction.cs</DependentUpon>
     </Compile>
     <Compile Include="LoaiSach.cs">
       <SubType>Form</SubType>
@@ -108,6 +120,18 @@
     <Compile Include="FormChinh.Designer.cs">
       <DependentUpon>FormChinh.cs</DependentUpon>
     </Compile>
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NhapSach.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NhapSach.Designer.cs">
+      <DependentUpon>NhapSach.cs</DependentUpon>
+    </Compile>
     <Compile Include="Sach.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,7 +140,22 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SachFunction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SachFunction.Designer.cs">
+      <DependentUpon>SachFunction.cs</DependentUpon>
+    </Compile>
     <Compile Include="SuKien.cs" />
+    <Compile Include="TimKiem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimKiem.Designer.cs">
+      <DependentUpon>TimKiem.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ChiTietNhap.resx">
+      <DependentUpon>ChiTietNhap.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CTDN.resx">
       <DependentUpon>CTDN.cs</DependentUpon>
     </EmbeddedResource>
@@ -129,17 +168,26 @@
     <EmbeddedResource Include="DonXuat.resx">
       <DependentUpon>DonXuat.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Home.resx">
-      <DependentUpon>Home.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Kho.resx">
       <DependentUpon>Kho.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="KhoFunction.resx">
+      <DependentUpon>KhoFunction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoaiFunction.resx">
+      <DependentUpon>LoaiFunction.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoaiSach.resx">
       <DependentUpon>LoaiSach.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormChinh.resx">
       <DependentUpon>FormChinh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NhapSach.resx">
+      <DependentUpon>NhapSach.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sach.resx">
       <DependentUpon>Sach.cs</DependentUpon>
@@ -153,6 +201,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SachFunction.resx">
+      <DependentUpon>SachFunction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimKiem.resx">
+      <DependentUpon>TimKiem.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

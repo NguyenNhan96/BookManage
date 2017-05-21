@@ -17,6 +17,7 @@ namespace QTCSDL
         //  0 : CHANGE
         //  1 : ADD
         private int grbMode = -1;
+        public String bienTruyen = "";
         public DonXuat()
         {
             InitializeComponent();
@@ -26,8 +27,26 @@ namespace QTCSDL
         {
             con.Open();
             hienThi();
+            hienThiTextbox(false);
         }
+        public void hienThiTextbox(Boolean chk)
+        {
+            if (chk == true)
+            {
+                txtMaDon.Enabled = true;
+                txtMaKho.Enabled = true;
+                txtNoiXuat.Enabled = true;
+                dtNgayXuat.Enabled = true;
+            }
+            else
+            {
+                txtMaDon.Enabled = false;
+                txtMaKho.Enabled = false;
+                txtNoiXuat.Enabled = false;
+                dtNgayXuat.Enabled = false;
 
+            }
+        }
         private void DonXuat_FormClosing(object sender, FormClosingEventArgs e)
         {
             con.Close();
@@ -45,69 +64,47 @@ namespace QTCSDL
 
         private void dsDonXuat_SelectionChanged(object sender, EventArgs e)
         {
-            loadToTextBox();
+            loadToTextBox(true);
         }
-        public void loadToTextBox()
+        public void loadToTextBox(Boolean check)
         {
-            txtMaDon.DataBindings.Clear();
-            txtMaDon.DataBindings.Add("Text", dsDonXuat.DataSource, "MADX");
-            txtNoiXuat.DataBindings.Clear();
-            txtNoiXuat.DataBindings.Add("Text", dsDonXuat.DataSource, "NOIXUAT");
-            dtNgayXuat.DataBindings.Clear();
-            dtNgayXuat.DataBindings.Add("Text", dsDonXuat.DataSource, "NGAYXUAT");
-            txtTongTien.DataBindings.Clear();
-            txtTongTien.DataBindings.Add("Text", dsDonXuat.DataSource, "TONGTIEN");
-            txtMaKho.DataBindings.Clear();
-            txtMaKho.DataBindings.Add("Text", dsDonXuat.DataSource, "MAKHO");
+            if (check)
+            {
+                txtMaDon.DataBindings.Clear();
+                txtMaDon.DataBindings.Add("Text", dsDonXuat.DataSource, "MADX");
+                txtNoiXuat.DataBindings.Clear();
+                txtNoiXuat.DataBindings.Add("Text", dsDonXuat.DataSource, "NOIXUAT");
+                dtNgayXuat.DataBindings.Clear();
+                dtNgayXuat.DataBindings.Add("Text", dsDonXuat.DataSource, "NGAYXUAT");
+                lblTongTien.DataBindings.Clear();
+                lblTongTien.DataBindings.Add("Text", dsDonXuat.DataSource, "TONGTIEN");
+                txtMaKho.DataBindings.Clear();
+                txtMaKho.DataBindings.Add("Text", dsDonXuat.DataSource, "MAKHO");
+            }
+            else
+            {
+                txtMaDon.Clear(); txtMaKho.Clear(); txtNoiXuat.Clear(); lblTongTien.Text="";
+            }
 
         }
-        
-        public String bienTruyen = "";
         
        
-
+        
         private void btnThem_Click_1(object sender, EventArgs e)
         {
-            try
-            {
-                string sqlThem = "insert into DONXUAT values(@MADX, @NGAYXUAT, @NOIXUAT, @TONGTIEN, @MAKHO)";
-                SqlCommand comThem = new SqlCommand(sqlThem, con);// bat dau cau truy van
-                comThem.Parameters.AddWithValue("MADX", txtMaDon.Text);
-                comThem.Parameters.AddWithValue("NGAYXUAT", dtNgayXuat.Value);
-                comThem.Parameters.AddWithValue("NOIXUAT", txtNoiXuat.Text);
-                comThem.Parameters.AddWithValue("TONGTIEN", txtTongTien.Text);
-                comThem.Parameters.AddWithValue("MAKHO", txtMaKho.Text);
-                comThem.ExecuteNonQuery();
-                hienThi();
-            }
-            catch
-            {
-                MessageBox.Show("Lỗi, không thêm được.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            loadToTextBox(false);
+            this.grbThongTin.Text = "Nhập đơn xuất mới";
+            this.grbMode = 1;
+            hienThiTextbox(true);
+           
         }
 
         private void btnSua_Click_1(object sender, EventArgs e)
         {
-            try
-            {
-                string sqlSua = "update DONXUAT set NGAYXUAT=@NGAYXUAT, NOIXUAT=@NOIXUAT, TONGTIEN=@TONGTIEN, MAKHO=@makho where MADX=@MADX";
-                SqlCommand comSua = new SqlCommand(sqlSua, con);
-                comSua.Parameters.AddWithValue("MADX", txtMaDon.Text);
-                comSua.Parameters.AddWithValue("NGAYXUAT", dtNgayXuat.Value);
-                comSua.Parameters.AddWithValue("NOIXUAT", txtNoiXuat.Text);
-                comSua.Parameters.AddWithValue("TONGTIEN", txtTongTien.Text);
-                comSua.Parameters.AddWithValue("MAKHO", txtMaKho.Text);
-
-                if (MessageBox.Show("Bạn muốn sửa?", "Thông báo.", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
-                {
-                    comSua.ExecuteNonQuery();
-                }
-                hienThi();
-            }
-            catch
-            {
-                MessageBox.Show("Lỗi, không sửa được.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            loadToTextBox(true);         
+            this.grbThongTin.Text = "Chỉnh sửa đơn xuất.";
+            this.grbMode = 0;
+            hienThiTextbox(true);
         }
 
         private void btnXoa_Click_1(object sender, EventArgs e)
@@ -132,6 +129,7 @@ namespace QTCSDL
         private void btnRefresh_Click_1(object sender, EventArgs e)
         {
             hienThi();
+            hienThiTextbox(false);
         }
         private void btnChiTiet_Click_1(object sender, EventArgs e)
         {
@@ -146,13 +144,13 @@ namespace QTCSDL
 
         public void chiTietDonXuat_TruyenGiaTien(object sender, SuKien e)
         {
-            txtTongTien.Text = e.So;
+            lblTongTien.Text = e.So;
             string sqlSua = "update DONXUAT set NGAYXUAT=@NGAYXUAT, NOIXUAT=@NOIXUAT, TONGTIEN=@TONGTIEN, MAKHO=@makho where MADX=@MADX";
             SqlCommand comSua = new SqlCommand(sqlSua, con);
             comSua.Parameters.AddWithValue("MADX", txtMaDon.Text);
             comSua.Parameters.AddWithValue("NGAYXUAT", dtNgayXuat.Value);
             comSua.Parameters.AddWithValue("NOIXUAT", txtNoiXuat.Text);
-            comSua.Parameters.AddWithValue("TONGTIEN", txtTongTien.Text);
+            comSua.Parameters.AddWithValue("TONGTIEN", lblTongTien.Text);
             comSua.Parameters.AddWithValue("MAKHO", txtMaKho.Text);
             comSua.ExecuteNonQuery();
             hienThi();
@@ -164,7 +162,73 @@ namespace QTCSDL
             e.Cancel = true;
         }
 
-        
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            switch (grbMode)
+            {
+                case 1:
+                    try
+                    {
+                        string sqlThem = "insert into DONXUAT values(@MADX, @NGAYXUAT, @NOIXUAT, @TONGTIEN, @MAKHO)";
+                        SqlCommand comThem = new SqlCommand(sqlThem, con);// bat dau cau truy van
+                        comThem.Parameters.AddWithValue("MADX", txtMaDon.Text);
+                        comThem.Parameters.AddWithValue("NGAYXUAT", dtNgayXuat.Value);
+                        comThem.Parameters.AddWithValue("NOIXUAT", txtNoiXuat.Text);
+                        comThem.Parameters.AddWithValue("TONGTIEN", lblTongTien.Text);
+                        comThem.Parameters.AddWithValue("MAKHO", txtMaKho.Text);
+                        comThem.ExecuteNonQuery();
+                        MessageBox.Show("Thêm Sách Thành Công !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Lỗi, không thêm được.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        hienThi();
+                        this.grbMode = -1;
+                        hienThiTextbox(false);
+                    }
+                    break;
+                case 0:
+                    try
+                    {
+                        string sqlSua = "update DONXUAT set NGAYXUAT=@NGAYXUAT, NOIXUAT=@NOIXUAT, TONGTIEN=@TONGTIEN, MAKHO=@makho where MADX=@MADX";
+                        SqlCommand comSua = new SqlCommand(sqlSua, con);
+                        comSua.Parameters.AddWithValue("MADX", txtMaDon.Text);
+                        comSua.Parameters.AddWithValue("NGAYXUAT", dtNgayXuat.Value);
+                        comSua.Parameters.AddWithValue("NOIXUAT", txtNoiXuat.Text);
+                        comSua.Parameters.AddWithValue("TONGTIEN", lblTongTien.Text);
+                        comSua.Parameters.AddWithValue("MAKHO", txtMaKho.Text);
+
+                        if (MessageBox.Show("Bạn muốn sửa?", "Thông báo.", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+                        {
+                            comSua.ExecuteNonQuery();
+                            MessageBox.Show("Sửa Thành Công !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Lỗi, không sửa được.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        hienThi();
+                        this.grbMode = -1;
+                        hienThiTextbox(false);
+                    }
+                    break;
+            }
+        }
+
+        //Kiểm tra kí tự nhập vào. chỉ cho phép là số
+        private void txtTongTien_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
 
     }
 }

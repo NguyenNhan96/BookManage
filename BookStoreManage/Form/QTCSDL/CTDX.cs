@@ -17,21 +17,50 @@ namespace QTCSDL
         {
             InitializeComponent();
         }
+        //grbMode
+        // -1 : NO USE 
+        //  0 : CHANGE
+        //  1 : ADD
+        private int grbMode = -1;
         SqlConnection con = DBConnecter.sqlConnector();
         public String maDon = "";
         int tong = 0;
 
         private void CTDX_Load(object sender, EventArgs e)
         {
-             con.Open();
+            con.Open();
             hienThi();
             tinhTongTien();
+            hienThiTextbox(false);
         }
+        public void hienThiTextbox(Boolean chk)
+        {
+            if (chk == true)
+            {
+                txtMaDon.Enabled = true;
+                txtMaSach.Enabled = true;
+                txtMCTX.Enabled = true;
+                txtSoLuong.Enabled = true;
+                txtGia.Enabled = true;
 
+            }
+            else
+            {
+                txtMaDon.Enabled = false;
+                txtMaSach.Enabled = false;
+                txtMCTX.Enabled = false;
+                txtSoLuong.Enabled = false;
+                txtGia.Enabled = false;
+            }
+        }
         private void CTDX_FormClosing(object sender, FormClosingEventArgs e)
         {
             con.Close();
-            truyenGiaTien(this, new SuKien(lblTongGiaDonHang.Text));
+            if (lblTongGiaDonHang.Text == "0")
+            {
+            }
+            else
+                truyenGiaTien(this, new SuKien(lblTongGiaDonHang.Text));
         }
         // tạo eventHandler để truyền giá trị trong lblTongGiaDonHang 
         private event EventHandler<SuKien> truyenGiaTien;
@@ -113,67 +142,51 @@ namespace QTCSDL
             lblTongGiaDonHang.Text = (tongGia.ToString());
             this.tong = tongGia;
         }
-        public void loadToTextBox()
+        public void loadToTextBox(Boolean check)
         {
-            txtMCTX.DataBindings.Clear();
-            txtMCTX.DataBindings.Add("Text", dsCTDX.DataSource, "MACTX");
-            txtMaSach.DataBindings.Clear();
-            txtMaSach.DataBindings.Add("Text", dsCTDX.DataSource, "MASACH");
-            txtGia.DataBindings.Clear();
-            txtGia.DataBindings.Add("Text", dsCTDX.DataSource, "GIA");
-            txtSoLuong.DataBindings.Clear();
-            txtSoLuong.DataBindings.Add("Text", dsCTDX.DataSource, "SL");
-            tinhTien();
+            if (check)
+            {
+                txtMCTX.DataBindings.Clear();
+                txtMCTX.DataBindings.Add("Text", dsCTDX.DataSource, "MACTX");
+                txtMaSach.DataBindings.Clear();
+                txtMaSach.DataBindings.Add("Text", dsCTDX.DataSource, "MASACH");
+                txtGia.DataBindings.Clear();
+                txtGia.DataBindings.Add("Text", dsCTDX.DataSource, "GIA");
+                txtSoLuong.DataBindings.Clear();
+                txtSoLuong.DataBindings.Add("Text", dsCTDX.DataSource, "SL");
+                //txtMaDon.DataBindings.Clear();
+                //txtMaDon.DataBindings.Add("Text", dsCTDX.DataSource, "MADX");
+                tinhTien();
+            }
+            else
+            {
+                txtGia.Clear(); txtMaSach.Clear(); txtMCTX.Clear();
+                txtSoLuong.Clear(); lblTongTien.Text = ""; lblTongGiaDonHang.Text = "";
+            }
+
         }
 
         private void dsCTDX_SelectionChanged(object sender, EventArgs e)
         {
-            loadToTextBox();
+            loadToTextBox(true);
         }
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                string sqlThem = "insert into CTDX values(@MACTX,@MADX, @MASACH,@GIA, @SL)";
-                SqlCommand comThem = new SqlCommand(sqlThem, con);// bat dau cau truy van
-                comThem.Parameters.AddWithValue("MACTX", txtMCTX.Text);
-                comThem.Parameters.AddWithValue("MADX", txtMaDon.Text);
-                comThem.Parameters.AddWithValue("MASACH", txtMaSach.Text);
-                comThem.Parameters.AddWithValue("GIA", txtGia.Text);
-                comThem.Parameters.AddWithValue("SL", txtSoLuong.Text);
-                comThem.ExecuteNonQuery();
-                hienThi();                MessageBox.Show("Thêm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch
-            {
-                MessageBox.Show("Lỗi, không thêm được.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            loadToTextBox(false);
+            this.grbThongTin.Text = "Thêm đơn chi tiết mới";
+            this.grbMode = 1;
+            hienThiTextbox(true);
+            txtMCTX.Focus();
         }
 
         private void btnSua_Click(object sender, EventArgs e)
         {
-            try
-            {
-                string sqlSua = "update CTDX set MADX=@MADX, MASACH=@MASACH, GIA=@GIA, SL=@SL where MACTX=@MACTX";
-                SqlCommand comSua = new SqlCommand(sqlSua, con);
-                comSua.Parameters.AddWithValue("MADX", txtMaDon.Text);
-                comSua.Parameters.AddWithValue("MASACH", txtMaSach.Text);
-                comSua.Parameters.AddWithValue("GIA", txtGia.Text);
-                comSua.Parameters.AddWithValue("SL", txtSoLuong.Text);
-                comSua.Parameters.AddWithValue("MACTX", txtMCTX.Text);
+            loadToTextBox(true);
+            hienThiTextbox(true);
+            this.grbThongTin.Text = "Sửa thông tin đơn chi tiết. ";
+            this.grbMode = 0;
 
-                if (MessageBox.Show("Bạn muốn sửa?", "Thông báo.", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
-                {
-                    comSua.ExecuteNonQuery();
-                }
-                hienThi();
-                MessageBox.Show("Sửa thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch
-            {
-                MessageBox.Show("Lỗi, không sửa được.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void btnXoa_Click(object sender, EventArgs e)
@@ -186,9 +199,9 @@ namespace QTCSDL
                 if (MessageBox.Show("Bạn muốn xóa?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
                 {
                     comXoa.ExecuteNonQuery();
+                    MessageBox.Show("Xóa thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 hienThi();
-                MessageBox.Show("Xóa thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch
             {
@@ -200,11 +213,14 @@ namespace QTCSDL
         {
             hienThi();
             tinhTongTien();
+            hienThiTextbox(false);
+            this.grbThongTin.Text = "Thông tin chi tiết";
         }
 
         private void btnXem_Click(object sender, EventArgs e)
         {
             hienThiTatCa();
+            hienThiTextbox(false);
         }
 
         private void txtGia_TextChanged(object sender, EventArgs e)
@@ -240,12 +256,71 @@ namespace QTCSDL
                 e.Handled = true;
             }
         }
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            switch (grbMode)
+            {
+                case 1:
+                    try
+                    {
+                        string sqlThem = "insert into CTDX values(@MACTX,@MADX, @MASACH,@GIA, @SL)";
+                        SqlCommand comThem = new SqlCommand(sqlThem, con);// bat dau cau truy van
+                        comThem.Parameters.AddWithValue("MACTX", txtMCTX.Text);
+                        comThem.Parameters.AddWithValue("MADX", txtMaDon.Text);
+                        comThem.Parameters.AddWithValue("MASACH", txtMaSach.Text);
+                        comThem.Parameters.AddWithValue("GIA", txtGia.Text);
+                        comThem.Parameters.AddWithValue("SL", txtSoLuong.Text);
+                        comThem.ExecuteNonQuery();
+                        hienThi(); MessageBox.Show("Thêm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Lỗi, không thêm được.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        hienThi();
+                        hienThiTextbox(false);
+                        this.grbMode = -1;
+                    }
+                    break;
+                case 0:
+                    try
+                    {
+                        string sqlSua = "update CTDX set MADX=@MADX, MASACH=@MASACH, GIA=@GIA, SL=@SL where MACTX=@MACTX";
+                        SqlCommand comSua = new SqlCommand(sqlSua, con);
+                        comSua.Parameters.AddWithValue("MADX", txtMaDon.Text);
+                        comSua.Parameters.AddWithValue("MASACH", txtMaSach.Text);
+                        comSua.Parameters.AddWithValue("GIA", txtGia.Text);
+                        comSua.Parameters.AddWithValue("SL", txtSoLuong.Text);
+                        comSua.Parameters.AddWithValue("MACTX", txtMCTX.Text);
+                        if (MessageBox.Show("Bạn muốn sửa?", "Thông báo.", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+                        {
+                            comSua.ExecuteNonQuery();
+                            MessageBox.Show("Sửa thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Lỗi, không sửa được.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        hienThi();
+                        hienThiTextbox(false);
+                        this.grbMode = -1;
+                    }
+                    break;
+            }
+        }
+
         //Hàm này dùng để vô hiệu hóa phím delete trên bàn phím người dùng.
         //tức là dữ liệu ở dataGridView sẽ không bị xóa đi khi nhấn delete trên bàn phím
         private void dsCTDX_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
             e.Cancel = true;
         }
-
     }
 }
